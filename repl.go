@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/nsp5488/pokedexcli/internal/pokeapi"
 )
 
-func startRepl() {
+func startRepl(config Config) {
 	reader := bufio.NewScanner(os.Stdin)
 	commands := getCommands()
-	config := Config{}
 
 	for {
 		fmt.Print("pokedex > ")
@@ -47,6 +48,7 @@ type cliCommand struct {
 type Config struct {
 	next     *string
 	previous *string
+	client   *pokeapi.Client
 }
 
 func getCommands() map[string]cliCommand {

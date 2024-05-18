@@ -3,11 +3,10 @@ package main
 import (
 	"errors"
 	"fmt"
-	"internal/pokeapi"
 )
 
 func commandMap(c *Config) error {
-	result, err := pokeapi.GetMapFromPokeApi(c.next)
+	result, err := c.client.GetMapFromPokeApi(c.next)
 
 	if err != nil {
 		return errors.New("error while fetching")
@@ -24,7 +23,7 @@ func commandMap(c *Config) error {
 }
 
 func commandMapB(c *Config) error {
-	result, err := pokeapi.GetMapFromPokeApi(c.previous)
+	result, err := c.client.GetMapFromPokeApi(c.previous)
 	if err != nil {
 		return errors.New("error while fetching")
 	}

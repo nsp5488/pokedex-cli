@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"net/http"
 )
 
 type MapResult struct {
@@ -17,13 +16,22 @@ type MapResult struct {
 	} `json:"results"`
 }
 
-func GetMapFromPokeApi(url *string) (MapResult, error) {
+func (c *Client) GetMapFromPokeApi(url *string) (MapResult, error) {
 	baseUrl := "https://pokeapi.co/api/v2/location/" // Default locations url.
+	results := MapResult{}
+
 	if url != nil {
 		baseUrl = *url
 	}
-	res, err := http.Get(baseUrl)
-	results := MapResult{}
+
+	// Check if we can retreive from cache
+	bytes, result := c.cache.Get(baseUrl)
+	if result {
+		json.Unmarshal(bytes, &results)
+		return results, nil
+	}
+	res, err := c.client.Get(baseUrl)
+
 	if err != nil {
 		return results, errors.New("failed to fetch from pokeApi")
 	}
@@ -35,6 +43,8 @@ func GetMapFromPokeApi(url *string) (MapResult, error) {
 	if err != nil {
 		return results, errors.New("failed to parse body after fetching from pokeApi")
 	}
+	// Cache this result for future use
+	c.cache.Add(baseUrl, body)
 
 	err = json.Unmarshal(body, &results)
 	if err != nil {
