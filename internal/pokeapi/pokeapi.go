@@ -17,8 +17,12 @@ type MapResult struct {
 	} `json:"results"`
 }
 
-func GetMapFromPokeApi(url string) (MapResult, error) {
-	res, err := http.Get(url)
+func GetMapFromPokeApi(url *string) (MapResult, error) {
+	baseUrl := "https://pokeapi.co/api/v2/location/" // Default locations url.
+	if url != nil {
+		baseUrl = *url
+	}
+	res, err := http.Get(baseUrl)
 	results := MapResult{}
 	if err != nil {
 		return results, errors.New("failed to fetch from pokeApi")
