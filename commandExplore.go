@@ -8,7 +8,7 @@ func commandExplore(c *Config, name string) error {
 		return err
 	}
 	for _, mon := range pokemon {
-		fmt.Println(mon)
+		fmt.Printf(" - %s\n", mon)
 	}
 	return nil
 }
