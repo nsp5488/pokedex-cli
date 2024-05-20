@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMap(c *Config) error {
+func commandMap(c *Config, name string) error {
 	result, err := c.client.GetMapFromPokeApi(c.next)
 
 	if err != nil {
@@ -22,7 +22,7 @@ func commandMap(c *Config) error {
 	return nil
 }
 
-func commandMapB(c *Config) error {
+func commandMapB(c *Config, name string) error {
 	result, err := c.client.GetMapFromPokeApi(c.previous)
 	if err != nil {
 		return errors.New("error while fetching")
