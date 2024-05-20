@@ -32,7 +32,8 @@ func startRepl(config Config) {
 		}
 		err := command.callback(&config, argument)
 		if err != nil {
-			break
+			fmt.Printf("Unabled to parse command %s\n", input)
+			continue
 		}
 	}
 }

@@ -18,7 +18,7 @@ type MapResult struct {
 }
 
 func (c *Client) GetMapFromPokeApi(url *string) (MapResult, error) {
-	baseUrl := "https://pokeapi.co/api/v2/location/" // Default locations url.
+	baseUrl := "https://pokeapi.co/api/v2/location-area/" // Default locations url.
 	results := MapResult{}
 
 	if url != nil {
@@ -56,7 +56,7 @@ func (c *Client) GetMapFromPokeApi(url *string) (MapResult, error) {
 }
 
 func (c *Client) ExploreMap(name string) ([]string, error) {
-	url := fmt.Sprintf("https://pokeapi.co/api/v2/location-area/%s-area", name)
+	url := fmt.Sprintf("https://pokeapi.co/api/v2/location-area/%s", name)
 	locInfo := LocationInfo{}
 
 	bytes, result := c.cache.Get(url)
